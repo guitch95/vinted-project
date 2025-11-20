@@ -2,8 +2,13 @@ import React from 'react';
 import logo from '../assets/img/logo.png';
 import {Link} from 'react-router-dom';
 import {FaSearch} from 'react-icons/fa';
+import Cookies from 'js-cookie';
 
-const Header = () => {
+const Header = ({setIsAuthenticated, isAuthenticated}) => {
+  const handleLogout = () => {
+    Cookies.remove('token');
+    setIsAuthenticated(false);
+  };
   return (
     <header>
       <div className="header-container">
@@ -16,10 +21,22 @@ const Header = () => {
           <FaSearch color="#7a7a7aff" />
           <input type="text" placeholder="Recherche des articles" />
         </div>
-        <div className="button-container">
-          <button>S'inscrire</button>
-          <button>Se connecter</button>
-        </div>
+        {isAuthenticated ? (
+          <button className="logout-btn" onClick={handleLogout}>
+            Se déconnecter
+          </button>
+        ) : (
+          <div className="button-container">
+            <Link to="/signup">
+              <button>S'inscrire</button>
+            </Link>
+            <Link to="/login">
+              <button>Se connecter</button>
+            </Link>
+          </div>
+        )}
+
+        <button className="button-sold">Vends tes articles</button>
       </div>
     </header>
   );

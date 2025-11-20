@@ -22,7 +22,7 @@ const Offer = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   return isLoading ? (
     <p>Chargement....</p>
