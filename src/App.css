@@ -7,6 +7,8 @@ header {
   width: 1200px;
   margin: 0 auto;
   height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .logo {
@@ -19,15 +21,31 @@ header {
   height: 30px;
 }
 
-main {
-  width: 100%;
+.container-search {
+  display: flex;
+  align-items: center;
+  background-color: #f5f6f7;
+  margin-left: 30px;
+  border-radius: 5px;
+  padding-left: 10px;
 }
 
-main img {
-  height: 350px;
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.header-container input {
+  background-color: #f5f6f7;
+  width: 600px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+main {
   width: 100%;
-  object-fit: cover;
-  margin-bottom: 30px;
 }
 
 .container {
@@ -39,9 +57,16 @@ main img {
   margin: 0 auto;
 }
 
+main img {
+  height: 350px;
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: 30px;
+}
+
 .product-card {
   height: 410px;
-  margin-top: 60px;
+  margin-top: 30px;
   width: 230px;
   display: flex;
   flex-direction: column;
@@ -49,6 +74,7 @@ main img {
   color: #999999;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
 }
 
 .info-user img {
