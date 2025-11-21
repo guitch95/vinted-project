@@ -8,6 +8,14 @@ import Cookies from 'js-cookie';
 const Home = ({setIsAuthenticated}) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, [setIsAuthenticated]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,16 +25,12 @@ const Home = ({setIsAuthenticated}) => {
         // console.log(response.data);
         setData(response.data);
         setIsLoading(false);
-        const token = Cookies.get('token');
-        if (token) {
-          setIsAuthenticated(true);
-        }
       } catch (error) {
         console.log(error.message);
       }
     };
     fetchData();
-  }, [setIsAuthenticated]);
+  }, []);
 
   return isLoading ? (
     <p>Chargement...</p>

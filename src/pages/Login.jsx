@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
@@ -7,6 +7,9 @@ import axios from 'axios';
 const Login = ({setIsAuthenticated}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -14,16 +17,24 @@ const Login = ({setIsAuthenticated}) => {
       const response = await axios.post(
         'https://lereacteur-vinted-api.herokuapp.com/user/login',
         {
-          email: email,
-          password: password,
+          email,
+          password,
         }
       );
       const token = response.data.token;
-      console.log(token);
-      Cookies.set('token', token, {expires: 1});
-      setIsAuthenticated(true);
+      if (token) {
+        // console.log(token);
+        Cookies.set('token', token, {expires: 1});
+        setIsAuthenticated(true);
+        setErrorMessage('');
+        navigate('/');
+      } else {
+        setErrorMessage('Un problème est survenu...');
+      }
     } catch (error) {
-      console.log(error.message);
+      error.response
+        ? setErrorMessage(error.response.data.message)
+        : console.log(error);
     }
   };
 
@@ -43,15 +54,16 @@ const Login = ({setIsAuthenticated}) => {
         <p className="signup-text">Se connecter</p>
         <form onSubmit={handleSubmit}>
           <div className="container-input">
+            {errorMessage && <p>{errorMessage}</p>}
             <input
-              name="email"
+              id="email"
               type="email"
               placeholder="Email"
               value={email}
               onChange={handleEmailChange}
             />
             <input
-              name="password"
+              id="password"
               type="password"
               placeholder="Mot de passe"
               value={password}

@@ -70,6 +70,7 @@ header {
   border: none;
   outline: none;
   background-color: #cc371a;
+  cursor: pointer;
 }
 
 .header-container input {

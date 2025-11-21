@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -8,6 +8,9 @@ const Signup = ({setIsAuthenticated}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [newsLetter, setNewsLetter] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,14 +21,24 @@ const Signup = ({setIsAuthenticated}) => {
           username: username,
           email: email,
           password: password,
+          newsletter: true,
         }
       );
       const token = response.data.token;
-      console.log(token);
-      Cookies.set('token', token, {expires: 1});
-      setIsAuthenticated(true);
+
+      if (token) {
+        // console.log(token);
+        Cookies.set('token', token, {expires: 1});
+        setIsAuthenticated(true);
+        setErrorMessage('');
+        navigate('/');
+      } else {
+        setErrorMessage('Un problème est survenu...');
+      }
     } catch (error) {
-      console.log(error.message);
+      error.response
+        ? setErrorMessage(error.response.data.message)
+        : console.log(error);
     }
   };
 
@@ -44,6 +57,11 @@ const Signup = ({setIsAuthenticated}) => {
     setUsername(value);
   };
 
+  const handleNewsLetter = (event) => {
+    const value = event.target.checked;
+    setNewsLetter(value);
+  };
+
   return (
     <div className="container-login">
       <div className="login">
@@ -51,25 +69,31 @@ const Signup = ({setIsAuthenticated}) => {
         <form onSubmit={handleSubmit}>
           <div className="container-input">
             <input
-              name="username"
+              id="username"
               type="text"
               placeholder="Nom d'utilisateur"
               value={username}
               onChange={handleUsernameChange}
             />
             <input
-              name="email"
+              id="email"
               type="email"
               placeholder="Email"
               value={email}
               onChange={handleEmailChange}
             />
+            {errorMessage && <p>{errorMessage}</p>}
             <input
-              name="password"
+              id="password"
               type="password"
               placeholder="Mot de passe"
               value={password}
               onChange={handlePasswordChange}
+            />
+            <input
+              type="checkbox"
+              checked={newsLetter}
+              onChange={handleNewsLetter}
             />
             <button className="signup-button">S'inscrire</button>
           </div>
