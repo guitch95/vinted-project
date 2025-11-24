@@ -90,11 +90,21 @@ const Signup = ({setIsAuthenticated}) => {
               value={password}
               onChange={handlePasswordChange}
             />
-            <input
-              type="checkbox"
-              checked={newsLetter}
-              onChange={handleNewsLetter}
-            />
+            <div className="checkbox-container">
+              <input
+                className="checkbox"
+                type="checkbox"
+                id="checkbox"
+                checked={newsLetter}
+                onChange={handleNewsLetter}
+              />
+              <label htmlFor="checkbox">S'inscrire à notre newsletter</label>
+            </div>
+            <p className="terms">
+              En m'inscrivant je confirme avoir lu et accepté les Termes &
+              Conditions et Politique de Confidentialité de Vinted. Je confirme
+              avoir au moins 18 ans.
+            </p>
             <button className="signup-button">S'inscrire</button>
           </div>
         </form>
