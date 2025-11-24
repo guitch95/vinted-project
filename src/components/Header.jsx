@@ -3,8 +3,16 @@ import logo from '../assets/img/logo.png';
 import {Link} from 'react-router-dom';
 import {FaSearch} from 'react-icons/fa';
 import Cookies from 'js-cookie';
+import SliderRange from './Range';
 
-const Header = ({setIsAuthenticated, isAuthenticated}) => {
+const Header = ({
+  setIsAuthenticated,
+  isAuthenticated,
+  search,
+  setSearch,
+  values,
+  setValues,
+}) => {
   const handleLogout = () => {
     Cookies.remove('token');
     setIsAuthenticated(false);
@@ -17,10 +25,21 @@ const Header = ({setIsAuthenticated, isAuthenticated}) => {
             <img src={logo} alt="logo vinted" />
           </Link>
         </div>
-        <div className="container-search">
-          <FaSearch color="#7a7a7aff" />
-          <input type="text" placeholder="Recherche des articles" />
+        <div className="filter-search">
+          <div className="container-search">
+            <FaSearch color="#7a7a7aff" />
+            <input
+              type="text"
+              placeholder="Recherche des articles"
+              value={search}
+              onChange={(event) => {
+                setSearch(event.target.value);
+              }}
+            />
+          </div>
+          <SliderRange values={values} setValues={setValues} />
         </div>
+
         {isAuthenticated ? (
           <button className="logout-btn" onClick={handleLogout}>
             Se déconnecter
@@ -36,7 +55,10 @@ const Header = ({setIsAuthenticated, isAuthenticated}) => {
           </div>
         )}
 
-        <button className="button-sold">Vends tes articles</button>
+        <Link to={'/publish'}>
+          {' '}
+          <button className="button-sold">Vends tes articles</button>
+        </Link>
       </div>
     </header>
   );

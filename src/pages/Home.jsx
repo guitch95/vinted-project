@@ -4,8 +4,9 @@ import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 import banner from '../assets/img/banner.jpg';
 import Cookies from 'js-cookie';
+import {Link} from 'react-router-dom';
 
-const Home = ({setIsAuthenticated}) => {
+const Home = ({setIsAuthenticated, search, values}) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,9 +19,31 @@ const Home = ({setIsAuthenticated}) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      let filters = '';
+
+      if (search) {
+        filters += '?title=' + search;
+      }
+
+      if (values[0]) {
+        if (filters) {
+          filters += '&priceMin=' + values[0];
+        } else {
+          filters += '?priceMin=' + values[0];
+        }
+      }
+
+      if (values[1]) {
+        if (filters) {
+          filters += '&priceMax=' + values[1];
+        } else {
+          filters += '?priceMax=' + values[1];
+        }
+      }
+
       try {
         const response = await axios.get(
-          'https://lereacteur-vinted-api.herokuapp.com/offers'
+          `https://lereacteur-vinted-api.herokuapp.com/offers${filters}`
         );
         // console.log(response.data);
         setData(response.data);
@@ -30,18 +53,31 @@ const Home = ({setIsAuthenticated}) => {
       }
     };
     fetchData();
-  }, []);
+  }, [search, values]);
 
   return isLoading ? (
     <p>Chargement...</p>
   ) : (
     <main>
-      <img src={banner} alt="" />
+      <div className="hero-img">
+        <div className="hero-ready">
+          <h1>Prêts à faire du tri dans vos placards ?</h1>
+          <Link to={'/publish'}>
+            <button className="home-ready-btn">Commencer à vendre</button>
+          </Link>
+        </div>
+        <img src={banner} alt="" />
+      </div>
 
       <div className="container">
         {data.offers.map((element) => {
           return (
-            <ProductCard key={element._id} element={element} id={element._id} />
+            <ProductCard
+              search={search}
+              key={element._id}
+              element={element}
+              id={element._id}
+            />
           );
         })}
       </div>

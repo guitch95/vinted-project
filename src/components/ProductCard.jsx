@@ -9,12 +9,20 @@ const ProductCard = ({id, element}) => {
         <p>{element.owner.account.username}</p>
       </div>
       <img src={element.product_image.secure_url} alt="" />
-      <p>{element.product_price} €</p>
+      <p className="description">{element.product_price} €</p>
       {element.product_details.map((element, index) => {
-        return <p key={index}>{element.MARQUE}</p>;
+        return (
+          <p className="description-gray" key={index}>
+            {element.MARQUE}
+          </p>
+        );
       })}
       {element.product_details.map((element, index) => {
-        return <p key={index}>{element.TAILLE}</p>;
+        return (
+          <p className="description-gray" key={index}>
+            {element.TAILLE}
+          </p>
+        );
       })}
     </Link>
   );
