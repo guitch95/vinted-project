@@ -58,7 +58,7 @@ const Home = ({setIsAuthenticated, search, values}) => {
   return isLoading ? (
     <p>Chargement...</p>
   ) : (
-    <main>
+    <main className="main-home">
       <div className="hero-img">
         <div className="hero-ready">
           <h1>Prêts à faire du tri dans vos placards ?</h1>

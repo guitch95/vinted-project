@@ -27,7 +27,7 @@ const Login = ({setIsAuthenticated}) => {
         Cookies.set('token', token, {expires: 1});
         setIsAuthenticated(true);
         setErrorMessage('');
-        navigate('/');
+        navigate('/publish');
       } else {
         setErrorMessage('Un problème est survenu...');
       }

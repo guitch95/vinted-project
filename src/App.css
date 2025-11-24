@@ -149,6 +149,10 @@ main img {
   object-fit: cover;
 }
 
+.main-home {
+  background-color: white;
+}
+
 .product-card {
   margin-top: 30px;
   width: 240px;
@@ -162,6 +166,18 @@ main img {
 .product-card img {
   width: 230px;
   height: 360px;
+}
+.info-user {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.info-user img {
+  height: 20px;
+  width: 20px;
+  border-radius: 50px;
+  object-fit: cover;
 }
 
 .info-user p {
@@ -394,6 +410,7 @@ input[type='file'] {
 }
 
 .description-field {
+  width: 550px;
   height: 200px;
 }
 

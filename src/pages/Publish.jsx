@@ -89,7 +89,7 @@ const Publish = () => {
             </div>
             <div className="input-box">
               <label htmlFor="description">Décris ton article</label>
-              <input
+              <textarea
                 className="description-field"
                 type="text"
                 id="description"

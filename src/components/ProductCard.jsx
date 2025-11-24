@@ -5,7 +5,13 @@ const ProductCard = ({id, element}) => {
   return (
     <Link to={`offers/${id}`} className="product-card">
       <div className="info-user">
-        {/* <img src={element.owner.account.avatar.secure_url} alt="Avatar" /> */}
+        {element.owner.account.avatar && (
+          <img
+            className="avatar"
+            src={element.owner.account.avatar.secure_url}
+            alt="Avatar"
+          />
+        )}
         <p>{element.owner.account.username}</p>
       </div>
       <img src={element.product_image.secure_url} alt="" />
