@@ -168,9 +168,11 @@ const Publish = () => {
                   setPrice(event.target.value);
                 }}
               />
+              {/* <div className="checkbox-container-exchange">
+                <input type="checkbox" id="exchange" />
+                <label htmlFor="exchange"></label>
+              </div> */}
             </div>
-
-            {/* <input type="checkbox" id="exchange" /> */}
           </div>
           <div className="btn-container">
             <button>Ajouter</button>

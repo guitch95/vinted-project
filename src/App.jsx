@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {useState} from 'react';
 import Publish from './pages/Publish';
+import Payment from './pages/Payment';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -51,6 +52,7 @@ function App() {
           element={<Login setIsAuthenticated={setIsAuthenticated} />}
         />
         <Route path="/publish" element={<Publish />} />
+        <Route path="/payment" element={<Payment />} />
       </Routes>
     </Router>
   );
