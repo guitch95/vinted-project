@@ -10,7 +10,7 @@ const stripePromise = loadStripe(
 
 const Payment = () => {
   const location = useLocation();
-  const {price} = location.state;
+  const {price, title} = location.state;
 
   const protection = 0.4;
   const shipping = 0.8;
@@ -27,7 +27,6 @@ const Payment = () => {
     <div className="container-payment">
       <div className="card-payment">
         <div className="summary">
-          {' '}
           <p>Résumé de la commande</p>
         </div>
         <div className="order">
@@ -50,12 +49,12 @@ const Payment = () => {
         </div>
         <p>
           Il ne vous reste plus qu'une étape pour vous offrir{' '}
-          <span>article</span>. Vous allez payer{' '}
+          <span>{title}</span>. Vous allez payer{' '}
           <span>{total.toFixed(2)} €</span> (frais de protection et frais de
           port inclus).
         </p>
         <Elements stripe={stripePromise} options={options}>
-          <CheckoutForm price={price} />
+          <CheckoutForm total={total} title={title} />
         </Elements>
       </div>
     </div>

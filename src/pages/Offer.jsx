@@ -1,14 +1,21 @@
 import React from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Offer = () => {
   const {id} = useParams();
+  const navigate = useNavigate();
 
   const [offer, setOffer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const token = Cookies.get('token');
+  if (!token) {
+    navigate('/login');
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +31,13 @@ const Offer = () => {
     };
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (!token) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   return isLoading ? (
     <p>Chargement....</p>
@@ -71,7 +85,10 @@ const Offer = () => {
             </div>
             <Link
               to={'/payment'}
-              state={{price: offer.product_price, title: 'Brand'}}>
+              state={{
+                price: offer.product_price,
+                title: offer.product_details.map((element) => element.MARQUE),
+              }}>
               <button>Acheter</button>
             </Link>
           </div>
