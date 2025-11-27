@@ -6,16 +6,9 @@ import banner from '../assets/img/banner.jpg';
 import Cookies from 'js-cookie';
 import {Link} from 'react-router-dom';
 
-const Home = ({setIsAuthenticated, search, values}) => {
+const Home = ({search, values}) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const token = Cookies.get('token');
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, [setIsAuthenticated]);
 
   useEffect(() => {
     const fetchData = async () => {

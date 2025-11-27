@@ -8,17 +8,18 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {useState} from 'react';
 import Publish from './pages/Publish';
 import Payment from './pages/Payment';
+import Cookies from 'js-cookie';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState(Cookies.get('token') || null);
   const [search, setSearch] = useState('');
   const [values, setValues] = useState([20, 150]);
 
   return (
     <Router>
       <Header
-        setIsAuthenticated={setIsAuthenticated}
-        isAuthenticated={isAuthenticated}
+        setToken={setToken}
+        token={token}
         search={search}
         setSearch={setSearch}
         values={values}
@@ -30,8 +31,8 @@ function App() {
           element={
             <Home
               search={search}
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
+              token={token}
+              setToken={setToken}
               values={values}
               setValues={setValues}
             />
@@ -40,17 +41,9 @@ function App() {
         <Route path="/offers/:id" element={<Offer />} />
         <Route
           path="/signup"
-          element={
-            <Signup
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-            />
-          }
+          element={<Signup token={token} setToken={setToken} />}
         />
-        <Route
-          path="/login"
-          element={<Login setIsAuthenticated={setIsAuthenticated} />}
-        />
+        <Route path="/login" element={<Login setToken={setToken} />} />
         <Route path="/publish" element={<Publish />} />
         <Route path="/payment" element={<Payment />} />
       </Routes>

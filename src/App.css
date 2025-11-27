@@ -126,8 +126,8 @@ main img {
 .hero-ready {
   background-color: white;
   position: absolute;
-  top: 110px;
-  left: 150px;
+  top: 20%;
+  left: 15%;
   width: 375px;
   height: 275px;
   border-radius: 20px;
@@ -208,6 +208,10 @@ section {
   margin: 0 auto;
   display: flex;
   gap: 150px;
+}
+
+.container-offer p {
+  color: black;
 }
 
 .container-img,

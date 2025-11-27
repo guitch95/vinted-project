@@ -1,16 +1,17 @@
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate, useLocation} from 'react-router-dom';
 import {useState} from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const Signup = ({setIsAuthenticated}) => {
+const Signup = ({setToken}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [newsLetter, setNewsLetter] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -29,9 +30,13 @@ const Signup = ({setIsAuthenticated}) => {
       if (token) {
         // console.log(token);
         Cookies.set('token', token, {expires: 1});
-        setIsAuthenticated(true);
+        setToken(true);
         setErrorMessage('');
-        navigate('/');
+        if (location.state) {
+          navigate(location.state.from);
+        } else {
+          navigate('/');
+        }
       } else {
         setErrorMessage('Un problème est survenu...');
       }

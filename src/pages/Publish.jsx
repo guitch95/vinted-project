@@ -1,6 +1,6 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useState} from 'react';
+import {useNavigate, Navigate} from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import {FaPlus} from 'react-icons/fa';
@@ -17,16 +17,9 @@ const Publish = () => {
   const [price, setPrice] = useState('');
   const [picture, setPicture] = useState(null);
 
-  useEffect(() => {
-    const token = Cookies.get('token');
-    if (!token) {
-      navigate('/login');
-    }
-  }, [navigate]);
+  const token = Cookies.get('token');
 
   const handleSubmit = async (event) => {
-    const token = Cookies.get('token');
-
     event.preventDefault();
     const formData = new FormData();
     formData.append('title', title);
@@ -40,7 +33,7 @@ const Publish = () => {
 
     try {
       const response = await axios.post(
-        ' https://lereacteur-vinted-api.herokuapp.com/offer/publish',
+        'https://lereacteur-vinted-api.herokuapp.com/offer/publish',
         formData,
         {
           headers: {
@@ -48,13 +41,19 @@ const Publish = () => {
           },
         }
       );
-      console.log(response.data);
+      if (response.data._id) {
+        navigate('/offers/' + response.data._id);
+      } else {
+        console.log(response.data);
+      }
     } catch (error) {
       console.log(error.response);
     }
   };
 
-  return (
+  return !token ? (
+    <Navigate to="/login" state={{from: '/publish'}} />
+  ) : (
     <main>
       <div className="container-form">
         <h2>Vends tes articles</h2>
@@ -69,9 +68,7 @@ const Publish = () => {
                 type="file"
                 name="picture"
                 id="picture"
-                onChange={(event) => {
-                  setPicture(event.target.files[0]);
-                }}
+                onChange={(event) => setPicture(event.target.files[0])}
               />
             </div>
           </div>
@@ -82,21 +79,16 @@ const Publish = () => {
                 type="text"
                 id="title"
                 value={title}
-                onChange={(event) => {
-                  setTitle(event.target.value);
-                }}
+                onChange={(event) => setTitle(event.target.value)}
               />
             </div>
             <div className="input-box">
               <label htmlFor="description">Décris ton article</label>
               <textarea
                 className="description-field"
-                type="text"
                 id="description"
                 value={description}
-                onChange={(event) => {
-                  setDescription(event.target.value);
-                }}
+                onChange={(event) => setDescription(event.target.value)}
               />
             </div>
           </div>
@@ -107,9 +99,7 @@ const Publish = () => {
                 type="text"
                 id="brand"
                 value={brand}
-                onChange={(event) => {
-                  setBrand(event.target.value);
-                }}
+                onChange={(event) => setBrand(event.target.value)}
               />
             </div>
             <div className="input-box">
@@ -118,9 +108,7 @@ const Publish = () => {
                 type="text"
                 id="size"
                 value={size}
-                onChange={(event) => {
-                  setSize(event.target.value);
-                }}
+                onChange={(event) => setSize(event.target.value)}
               />
             </div>
             <div className="input-box">
@@ -129,9 +117,7 @@ const Publish = () => {
                 type="text"
                 id="color"
                 value={color}
-                onChange={(event) => {
-                  setColor(event.target.value);
-                }}
+                onChange={(event) => setColor(event.target.value)}
               />
             </div>
             <div className="input-box">
@@ -140,9 +126,7 @@ const Publish = () => {
                 type="text"
                 id="condition"
                 value={condition}
-                onChange={(event) => {
-                  setCondition(event.target.value);
-                }}
+                onChange={(event) => setCondition(event.target.value)}
               />
             </div>
             <div className="input-box">
@@ -151,9 +135,7 @@ const Publish = () => {
                 type="text"
                 id="city"
                 value={city}
-                onChange={(event) => {
-                  setCity(event.target.value);
-                }}
+                onChange={(event) => setCity(event.target.value)}
               />
             </div>
           </div>
@@ -164,14 +146,8 @@ const Publish = () => {
                 type="text"
                 id="price"
                 value={price}
-                onChange={(event) => {
-                  setPrice(event.target.value);
-                }}
+                onChange={(event) => setPrice(event.target.value)}
               />
-              {/* <div className="checkbox-container-exchange">
-                <input type="checkbox" id="exchange" />
-                <label htmlFor="exchange"></label>
-              </div> */}
             </div>
           </div>
           <div className="btn-container">

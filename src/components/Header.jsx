@@ -1,21 +1,15 @@
 import React from 'react';
 import logo from '../assets/img/logo.png';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {FaSearch} from 'react-icons/fa';
 import Cookies from 'js-cookie';
 import SliderRange from './Range';
 
-const Header = ({
-  setIsAuthenticated,
-  isAuthenticated,
-  search,
-  setSearch,
-  values,
-  setValues,
-}) => {
+const Header = ({setToken, token, search, setSearch, values, setValues}) => {
+  const location = useLocation();
   const handleLogout = () => {
     Cookies.remove('token');
-    setIsAuthenticated(false);
+    setToken(false);
   };
   return (
     <header>
@@ -25,22 +19,25 @@ const Header = ({
             <img src={logo} alt="logo vinted" />
           </Link>
         </div>
-        <div className="filter-search">
-          <div className="container-search">
-            <FaSearch color="#7a7a7aff" />
-            <input
-              type="text"
-              placeholder="Recherche des articles"
-              value={search}
-              onChange={(event) => {
-                setSearch(event.target.value);
-              }}
-            />
-          </div>
-          <SliderRange values={values} setValues={setValues} />
-        </div>
 
-        {isAuthenticated ? (
+        {location.pathname === '/' && (
+          <div className="filter-search">
+            <div className="container-search">
+              <FaSearch color="#7a7a7aff" />
+              <input
+                type="text"
+                placeholder="Recherche des articles"
+                value={search}
+                onChange={(event) => {
+                  setSearch(event.target.value);
+                }}
+              />
+            </div>
+            <SliderRange values={values} setValues={setValues} />
+          </div>
+        )}
+
+        {token ? (
           <button className="logout-btn" onClick={handleLogout}>
             Se déconnecter
           </button>
@@ -56,7 +53,6 @@ const Header = ({
         )}
 
         <Link to={'/publish'}>
-          {' '}
           <button className="button-sold">Vends tes articles</button>
         </Link>
       </div>

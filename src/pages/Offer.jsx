@@ -1,5 +1,5 @@
 import React from 'react';
-import {useParams, useNavigate} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
@@ -7,15 +7,8 @@ import Cookies from 'js-cookie';
 
 const Offer = () => {
   const {id} = useParams();
-  const navigate = useNavigate();
-
   const [offer, setOffer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  const token = Cookies.get('token');
-  if (!token) {
-    navigate('/login');
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,13 +25,6 @@ const Offer = () => {
     fetchData();
   }, [id]);
 
-  useEffect(() => {
-    const token = Cookies.get('token');
-    if (!token) {
-      navigate('/login');
-    }
-  }, [navigate]);
-
   return isLoading ? (
     <p>Chargement....</p>
   ) : (
@@ -52,25 +38,35 @@ const Offer = () => {
             <p className="price">{offer.product_price}€</p>
 
             <div className="container-info-high-details">
-              {offer.product_details.map((element) => {
-                return element.MARQUE && <p> MARQUE: {element.MARQUE}</p>;
+              {offer.product_details.map((element, index) => {
+                return (
+                  element.MARQUE && <p key={index}> MARQUE: {element.MARQUE}</p>
+                );
               })}
-              {offer.product_details.map((element) => {
-                return element.TAILLE ? <p> TAILLE: {element.TAILLE}</p> : '';
-              })}
-              {offer.product_details.map((element) => {
-                return element.ÉTAT ? <p> ÉTAT: {element.ÉTAT}</p> : '';
-              })}
-              {offer.product_details.map((element) => {
-                return element.COULEUR ? (
-                  <p> COULEUR: {element.COULEUR}</p>
+              {offer.product_details.map((element, index) => {
+                return element.TAILLE ? (
+                  <p key={index}> TAILLE: {element.TAILLE}</p>
                 ) : (
                   ''
                 );
               })}
-              {offer.product_details.map((element) => {
+              {offer.product_details.map((element, index) => {
+                return element.ÉTAT ? (
+                  <p key={index}> ÉTAT: {element.ÉTAT}</p>
+                ) : (
+                  ''
+                );
+              })}
+              {offer.product_details.map((element, index) => {
+                return element.COULEUR ? (
+                  <p key={index}> COULEUR: {element.COULEUR}</p>
+                ) : (
+                  ''
+                );
+              })}
+              {offer.product_details.map((element, index) => {
                 return element.EMPLACEMENT ? (
-                  <p> EMPLACEMENT: {element.EMPLACEMENT}</p>
+                  <p key={index}> EMPLACEMENT: {element.EMPLACEMENT}</p>
                 ) : (
                   ''
                 );
@@ -87,7 +83,8 @@ const Offer = () => {
               to={'/payment'}
               state={{
                 price: offer.product_price,
-                title: offer.product_details.map((element) => element.MARQUE),
+                title: offer.product_name,
+                from: `/offers/${id}`,
               }}>
               <button>Acheter</button>
             </Link>

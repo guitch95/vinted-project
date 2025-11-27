@@ -1,16 +1,25 @@
 import React from 'react';
-import {useLocation} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router-dom';
 import CheckoutForm from '../components/CheckoutForm';
 import {loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
+import {useNavigate} from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const stripePromise = loadStripe(
   'pk_test_51HCObyDVswqktOkX6VVcoA7V2sjOJCUB4FBt3EOiAdSz5vWudpWxwcSY8z2feWXBq6lwMgAb5IVZZ1p84ntLq03H00LDVc2RwP'
 );
 
 const Payment = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const {price, title} = location.state;
+
+  const token = Cookies.get('token');
+
+  if (!token) {
+    navigate('/login');
+  }
 
   const protection = 0.4;
   const shipping = 0.8;
@@ -23,7 +32,7 @@ const Payment = () => {
     currency: 'eur',
   };
 
-  return (
+  return token ? (
     <div className="container-payment">
       <div className="card-payment">
         <div className="summary">
@@ -58,7 +67,8 @@ const Payment = () => {
         </Elements>
       </div>
     </div>
+  ) : (
+    <Navigate to="/login" state={{from: location.state.from}} />
   );
 };
-
 export default Payment;
