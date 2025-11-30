@@ -16,6 +16,7 @@ const Publish = () => {
   const [city, setCity] = useState('');
   const [price, setPrice] = useState('');
   const [picture, setPicture] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const token = Cookies.get('token');
 
@@ -68,8 +69,19 @@ const Publish = () => {
                 type="file"
                 name="picture"
                 id="picture"
-                onChange={(event) => setPicture(event.target.files[0])}
+                onChange={(event) => {
+                  setPicture(event.target.files[0]);
+                  const objectUrl = URL.createObjectURL(event.target.files[0]);
+                  setPreview(objectUrl);
+                }}
               />
+              {preview && (
+                <img
+                  style={{width: '100px', height: '100px', marginLeft: '10px'}}
+                  src={preview}
+                  alt="Image de l'offre"
+                />
+              )}
             </div>
           </div>
           <div className="section">
