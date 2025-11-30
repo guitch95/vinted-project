@@ -39,7 +39,14 @@ header {
   gap: 15px;
 }
 
-.container-search {
+.filter-search-input {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.filter .container-search {
   border: 1px solid black;
   display: flex;
   align-items: center;

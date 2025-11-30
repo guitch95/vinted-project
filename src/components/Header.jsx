@@ -33,7 +33,12 @@ const Header = ({setToken, token, search, setSearch, values, setValues}) => {
                 }}
               />
             </div>
-            <SliderRange values={values} setValues={setValues} />
+            <div className="filter-search-input">
+              <p>Price:</p>
+              {values[0]}
+              <SliderRange values={values} setValues={setValues} />
+              {values[1]}
+            </div>
           </div>
         )}
 
